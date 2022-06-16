@@ -1,7 +1,7 @@
-import threading
+from workers.worker import Worker
 
-class Sender(threading.Thread):
-    def __init__(self):
-        raise NotImplemented()
-    def run(self):
-        raise NotImplemented()
+class Sender(Worker):
+    def run(self, conn):
+        while self.i_should_run.is_set():
+            message = self.queue.get(blocking=True)
+            conn.send()
